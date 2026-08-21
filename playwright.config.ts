@@ -6,7 +6,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 1,
   workers: 2,
-  reporter: 'html',
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'https://practicesoftwaretesting.com',
     headless: true,
