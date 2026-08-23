@@ -3,27 +3,18 @@ import { test, expect } from '../fixtures/pages'
 // Feature: Authentication
 // Scenario: Successfully log in with valid credentials
 test.describe('Authentication', () => {
-  test('Successfully log in with valid credentials', async ({
-    page,
-    homePage,
-    loginPage,
-    headerComponent
-  }) => {
-    // Given I am on the home page
-    await homePage.open()
-
-    // And I am logged into the application as a "registered" user
+  test('Successfully log in with valid credentials', async ({ pages }) => {
     // When I navigate to the login page
-    await loginPage.open()
+    await pages.loginPage.open()
 
-    // And I log in with valid credentials (email and password)
-    await loginPage.login('customer@practicesoftwaretesting.com', 'welcome01')
+    // And I log in with valid credentials (email and password) as a "registered" user
+    await pages.loginPage.login('customer@practicesoftwaretesting.com', 'welcome01')
 
     // Then my account should be visible in the page header
-    await expect(headerComponent.accountMenuToggle).toBeVisible()
+    await expect(pages.loginPage.header.accountMenuToggle).toBeVisible()
 
     // And the "Logout" option should be visible in the navigation menu
-    await headerComponent.openAccountMenu()
-    await expect(headerComponent.signOutLink).toBeVisible()
+    await pages.loginPage.header.openAccountMenu()
+    await expect(pages.loginPage.header.signOutLink).toBeVisible()
   })
 })

@@ -1,33 +1,36 @@
-import { test as base, expect } from '@playwright/test'
+import { test as base, expect, Page } from '@playwright/test'
 import { HomePage } from '../pages/HomePage'
-import { HeaderComponent } from '../pages/HeaderComponent'
 import { LoginPage } from '../pages/LoginPage'
 import { RegisterPage } from '../pages/RegisterPage'
 import { ProductOverviewPage } from '../pages/ProductOverviewPage'
 
-type Pages = {
-  homePage: HomePage
-  headerComponent: HeaderComponent
-  loginPage: LoginPage
-  registerPage: RegisterPage
-  productOverviewPage: ProductOverviewPage
+class PageFactory {
+  constructor(private page: Page) {}
+
+  get homePage(): HomePage {
+    return new HomePage(this.page)
+  }
+
+  get loginPage(): LoginPage {
+    return new LoginPage(this.page)
+  }
+
+  get registerPage(): RegisterPage {
+    return new RegisterPage(this.page)
+  }
+
+  get productOverviewPage(): ProductOverviewPage {
+    return new ProductOverviewPage(this.page)
+  }
 }
 
-export const test = base.extend<Pages>({
-  homePage: async ({ page }, use) => {
-    await use(new HomePage(page))
-  },
-  headerComponent: async ({ page }, use) => {
-    await use(new HeaderComponent(page))
-  },
-  loginPage: async ({ page }, use) => {
-    await use(new LoginPage(page))
-  },
-  registerPage: async ({ page }, use) => {
-    await use(new RegisterPage(page))
-  },
-  productOverviewPage: async ({ page }, use) => {
-    await use(new ProductOverviewPage(page))
+type Fixtures = {
+  pages: PageFactory
+}
+
+export const test = base.extend<Fixtures>({
+  pages: async ({ page }, use) => {
+    await use(new PageFactory(page))
   }
 })
 

@@ -1,14 +1,14 @@
 import { Page, Locator } from '@playwright/test'
+import { BasePage } from './BasePage'
 
-export class ProductOverviewPage {
-  readonly page: Page
+export class ProductOverviewPage extends BasePage {
   readonly pageTitle: Locator
   readonly searchInput: Locator
   readonly searchSubmitButton: Locator
   readonly productCards: Locator
 
   constructor(page: Page) {
-    this.page = page
+    super(page)
     this.pageTitle = page.locator('[data-test="page-title"]')
     this.searchInput = page.locator('[data-test="search-query"]')
     this.searchSubmitButton = page.locator('[data-test="search-submit"]')
