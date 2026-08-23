@@ -8,7 +8,7 @@ test.describe('User registration', () => {
     await pages.registerPage.open()
 
     // And I submit the registration form with valid credentials
-    const uniqueEmail = `jon.snow.${Date.now()}@nightswatch.com`
+    const uniqueEmail = `jon.snow.${crypto.randomUUID()}@nightswatch.com`
     const uniquePassword = `John${Date.now()}!`
 
     await pages.registerPage.register({

@@ -22,7 +22,9 @@ export class ProductOverviewPage extends BasePage {
 
   getProductCardByName(productName: string): Locator {
     return this.productCards.filter({
-      has: this.page.locator('[data-test="product-name"]', { hasText: productName })
+      has: this.page.locator('[data-test="product-name"]', {
+        hasText: new RegExp(`^\\s*${productName}\\s*$`)
+      })
     })
   }
 }
