@@ -1,6 +1,10 @@
 import { Page, Locator } from '@playwright/test'
 import { BasePage } from './BasePage'
 
+function escapeRegExp(text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 export class ProductOverviewPage extends BasePage {
   readonly pageTitle: Locator
   readonly searchInput: Locator
@@ -20,10 +24,14 @@ export class ProductOverviewPage extends BasePage {
     await this.searchSubmitButton.click()
   }
 
+  escapeRegExp(text: string): string {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  }
+
   getProductCardByName(productName: string): Locator {
     return this.productCards.filter({
       has: this.page.locator('[data-test="product-name"]', {
-        hasText: new RegExp(`^\\s*${productName}\\s*$`)
+        hasText: new RegExp(`^\\s*${escapeRegExp(productName)}\\s*$`)
       })
     })
   }
