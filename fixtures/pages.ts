@@ -1,28 +1,5 @@
-import { test as base, expect, Page } from '@playwright/test'
-import { HomePage } from '../pages/HomePage'
-import { LoginPage } from '../pages/LoginPage'
-import { RegisterPage } from '../pages/RegisterPage'
-import { ProductOverviewPage } from '../pages/ProductOverviewPage'
-
-class PageFactory {
-  constructor(private page: Page) {}
-
-  get homePage(): HomePage {
-    return new HomePage(this.page)
-  }
-
-  get loginPage(): LoginPage {
-    return new LoginPage(this.page)
-  }
-
-  get registerPage(): RegisterPage {
-    return new RegisterPage(this.page)
-  }
-
-  get productOverviewPage(): ProductOverviewPage {
-    return new ProductOverviewPage(this.page)
-  }
-}
+import { test as base, expect } from '@playwright/test'
+import { PageFactory } from '../pages/PageFactory'
 
 type Fixtures = {
   pages: PageFactory
