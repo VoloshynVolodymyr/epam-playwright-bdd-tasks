@@ -18,6 +18,19 @@ export class CustomWorld extends World {
       baseURL: 'https://practicesoftwaretesting.com'
     })
     this.page = await this.context.newPage()
+
+    // Debug: log the status and server header of the top-level document
+    // response, to surface the Cloudflare 403 that appears in CI (headless,
+    // datacenter IP) but not locally (real browser passes the anti-bot check).
+    this.page.on('response', (response) => {
+      if (response.request().resourceType() === 'document') {
+        const server = response.headers()['server'] ?? 'unknown'
+        console.log(
+          `[DEBUG] Document ${response.status()} for ${response.url()} (server: ${server})`
+        )
+      }
+    })
+
     this.pages = new PageFactory(this.page)
   }
 
