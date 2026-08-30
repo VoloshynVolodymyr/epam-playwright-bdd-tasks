@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main, feature/cucumber-integration]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  cucumber-ui-tests:
+    name: Cucumber UI Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Cucumber UI tests
+        run: npm run test:cucumber:ui
